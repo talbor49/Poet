@@ -1,12 +1,9 @@
-*.class
+.idea/
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Autosuggest model
+autosuggest/autosuggest/models_compressed.pkl
 
-# Package Files #
-*.jar
-*.war
-*.ear
+resources/
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+roger/MODEL.db
+roger/roger/__pycache__/
