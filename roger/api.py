@@ -8,7 +8,7 @@ import roger.generator
 import roger.util
 
 
-def generate_api(database, seed_word='', lines=10, auto_punctuation=True):
+def generate(database, seed_word='', lines=10, auto_punctuation=True):
     store = roger.store.SQLiteStore(path=database)
     model = roger.model.MarkovModel(store=store)
 
@@ -32,20 +32,20 @@ def generate_api(database, seed_word='', lines=10, auto_punctuation=True):
     for dummy in range(lines):
         line = generator.generate_sentence(
             word_1, word_2, final_punctuation=auto_punctuation)
-        print(line)
+        yield line
 
 
 _logger = logging.getLogger(__name__)
 
 
-def train_by_twitter_api(model, paths, sample=0.3, limit_model=100000):
+def train_by_twitter(model, paths, sample=0.3, limit_model=100000):
     for path in paths:
         lines = roger.training.from_twitter_dump(path, sample=sample)
 
-        train_api(model, lines, limit_model)
+        train(model, lines, limit_model)
 
 
-def train_api(model, lines, limit_model, lower_case=True):
+def train(model, lines, limit_model, lower_case=True):
     count = 0
 
     trigrams = roger.training.process_trigrams(lines, lower_case=lower_case)
@@ -63,12 +63,12 @@ def train_api(model, lines, limit_model, lower_case=True):
     model.store.trim(limit_model)
 
 
-def train_by_plain_text_api(model, file, limit_model=100000, keep_case=True):
+def train_by_plain_text(model, file, limit_model=100000, keep_case=True):
     for file in file:
-        train_api(model, file, limit_model, not keep_case)
+        train(model, file, limit_model, not keep_case)
 
 
-def next_word_api(model, word1, word2=None):
+def next_word(model, word1, word2=None):
     if word2:
         word_1 = word1
         word_2 = word2
