@@ -6,6 +6,7 @@ import socketio
 import eventlet
 import eventlet.wsgi
 import threading
+from web.util import capitalize_first_letter
 
 sio = socketio.Server()
 app = Flask(__name__, static_url_path='')
@@ -51,7 +52,9 @@ def message(sid, seed_words):
     print("poet request: %s " % seed_words)
     # threading.Thread(target=send_poet_lines, args=(sid, data)).start()
     for line in api.generate('../roger/MODEL.db', seed_words):
+        line = capitalize_first_letter(line)
         sio.emit('line feed', line + '<br/>', room=sid)
+        print('emitted line: %s' % line)
 
 
 
