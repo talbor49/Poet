@@ -6,4 +6,5 @@ autosuggest/autosuggest/models_compressed.pkl
 resources/
 
 roger/MODEL.db
-roger/roger/__pycache__/
+roger/__pycache__/
+roger/*.pyc
